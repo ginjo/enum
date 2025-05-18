@@ -29,6 +29,6 @@ end
 
 class LoadAnyValue < Enum::Base
   values :left, :right, :whole
-  default_value :ANY
+  default_value :$any
   suppress_read_errors true
 end

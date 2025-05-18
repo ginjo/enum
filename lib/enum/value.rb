@@ -13,10 +13,10 @@ module Enum
     
     def self.inherited(subclass)
       # Value subclass settings and options
-      #   @default_value => <:ERROR|:ANY|:something|nil>
+      #   @default_value => <:$error|:$any|:something|nil>
       #   @suppress_read_errors => <true|false>
       subclass.suppress_read_errors = false
-      subclass.default_value = :ERROR
+      subclass.default_value = :$error
       super
     end
     
@@ -44,15 +44,18 @@ module Enum
     # Load a primitive (symbol, string, integer) into new enum Value instance,
     # taking into consideration enum constraints, default_value setting.
     # Returns frozen Value instance.
-    def initialize(raw_val)
+    # TODO: Add param: opts = {} for run-time temp settings changes (default_value, suppress_read_errors).
+    # TODO: Maybe convert all opts to @options => {default_value:<class or instance opts>, suppress_read_errors:<class or instance opts>}
+    #       This would be easier to maintain but would require some special getter/setter methods.
+    def initialize(raw_val, opts={})
       begin
         @stored_value = klass[raw_val].to_sym.freeze
       rescue Enum::TokenNotFoundError => _error
         @error = _error.freeze
         case
-        when self.class.default_value == :ERROR
+        when self.class.default_value == :$error || opts[:default_value] == :$error
           raise _error
-        when self.class.default_value == :ANY
+        when self.class.default_value == :$any || opts[:default_value] == :$any
           @stored_value = raw_val.freeze
         else
           @stored_value = self.class.default_value.freeze

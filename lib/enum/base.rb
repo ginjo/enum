@@ -51,12 +51,6 @@ module Enum
         history.index(enum(token))
       end
       
-      # Get a new Value instance
-      def new(new_value)
-        new_instance = self::Value.new(new_value)
-        new_instance
-      end
-      
       # Render value given interger, string, or symbol.
       def [](val)
         case
@@ -109,7 +103,7 @@ module Enum
       def init_child_class(child)
         class << child
           extend ::Forwardable
-          def_delegators :'self::Value', :default_value, :suppress_read_errors
+          def_delegators :'self::Value', :default_value, :suppress_read_errors, :new
         end
         child.const_set :Value, ::Class.new(::Enum::Value)
         child::Value.klass = child

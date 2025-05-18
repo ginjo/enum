@@ -3,8 +3,8 @@ require 'test_helper'
 describe Enum::Value do
 
   describe '.inherited' do
-    describe 'sets subclass.default_value to :ERROR' do
-      specify { assert_equal :ERROR, Class.new(Enum::Value).instance_variable_get(:@default_value) }
+    describe 'sets subclass.default_value to :$error' do
+      specify { assert_equal :$error, Class.new(Enum::Value).instance_variable_get(:@default_value) }
     end
     describe 'sets subclass.suppress_read_errors to false' do
       specify { assert_equal false, Class.new(Enum::Value).instance_variable_get(:@suppress_read_errors) }
@@ -17,7 +17,7 @@ describe Enum::Value do
       specify { @side::Value.default_value(:something); assert_equal :something, @side::Value.instance_variable_get(:@default_value) }
     end
     describe 'returns class-level @default_value if args.empty?' do
-      specify { assert_equal :ERROR, @side::Value.instance_variable_get(:@default_value) }
+      specify { assert_equal :$error, @side::Value.instance_variable_get(:@default_value) }
     end
   end
   
@@ -32,6 +32,8 @@ describe Enum::Value do
   end
   
   describe '#initialize' do
+    # TODO: test for params opts.
+  
     describe 'always returns frozen object, unless exception raised' do
       specify { assert Side::Value.allocate.send(:initialize, :left).frozen? }
     end
@@ -47,17 +49,17 @@ describe Enum::Value do
       before do
         @side_class = Class.new(Side)
         @val_class = @side_class::Value
-        @val_class.default_value :ERROR
+        @val_class.default_value :$error
         #@invalid_val = @val_class.allocate.send(:initialize, :invalid)
       end
 
       it 'sets @error with TokenNotFoundError' do
-        @val_class.default_value :ANY
+        @val_class.default_value :$any
         @invalid_val = @val_class.allocate.send(:initialize, :invalid)
         assert_kind_of Enum::TokenNotFoundError, @invalid_val.instance_variable_get(:@error)
       end
       
-      describe 'when default_value == :ERROR' do
+      describe 'when default_value == :$error' do
         it 'raises TokenNotFoundError' do
           assert_raises(Enum::TokenNotFoundError) do
             @val_class.allocate.send(:initialize, :invalid)
@@ -65,9 +67,9 @@ describe Enum::Value do
         end
       end
       
-      describe 'when default_value == :ANY' do
+      describe 'when default_value == :$any' do
         before do
-          @val_class.default_value :ANY
+          @val_class.default_value :$any
           @invalid_value = @val_class.allocate.send(:initialize, :invalid)
         end
         it 'sets @stored_value = raw_val.freeze' do
