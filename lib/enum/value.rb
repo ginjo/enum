@@ -8,7 +8,9 @@ module Enum
     attr_reader :stored_value, :error
     
     class << self
-      attr_accessor :default_value, :suppress_read_errors, :klass
+      #attr_accessor :default_value, :suppress_read_errors, :klass
+      attr_writer   :default_value, :suppress_read_errors
+      attr_accessor :klass
     end
     
     def self.inherited(subclass)

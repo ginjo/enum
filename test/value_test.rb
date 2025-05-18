@@ -197,33 +197,33 @@ describe Enum::Value do
   
   describe '#<=>' do
     describe 'comparable with symbol' do
-      specify('less_than') { assert_equal -1, Side.new(:right) <=> :whole }
-      specify('equal_to') { assert_equal 0, Side.new(:right) <=> :right }
-      specify('greater_than') { assert_equal 1, Side.new(:right) <=> :left }
+      specify('less_than') { assert_equal(-1, Side.new(:right) <=> :whole) }
+      specify('equal_to') { assert_equal(0, Side.new(:right) <=> :right) }
+      specify('greater_than') { assert_equal(1, Side.new(:right) <=> :left) }
     end
     
     describe 'comparable with string' do
-      specify('less_than') { assert_equal -1, Side.new(:right) <=> 'whole' }
-      specify('equal_to') { assert_equal 0, Side.new(:right) <=> 'right' }
-      specify('greater_than') { assert_equal 1, Side.new(:right) <=> 'left' }
+      specify('less_than') { assert_equal(-1, Side.new(:right) <=> 'whole') }
+      specify('equal_to') { assert_equal(0, Side.new(:right) <=> 'right') }
+      specify('greater_than') { assert_equal(1, Side.new(:right) <=> 'left') }
     end
     
     describe 'comparable with integer' do
-      specify('less_than') { assert_equal -1, Side.new(:right) <=> 2 }
-      specify('equal_to') { assert_equal 0, Side.new(:right) <=> 1 }
-      specify('greater_than') { assert_equal 1, Side.new(:right) <=> 0 }
+      specify('less_than') { assert_equal(-1, Side.new(:right) <=> 2) }
+      specify('equal_to') { assert_equal(0, Side.new(:right) <=> 1) }
+      specify('greater_than') { assert_equal(1, Side.new(:right) <=> 0) }
     end
     
     describe 'comparable with other Value object of same enum class' do
-      specify('less_than') { assert_equal -1, Side.new(:right) <=> Side.new(:whole) }
-      specify('equal_to') { assert_equal 0, Side.new(:right) <=> Side.new(:right) }
-      specify('greater_than') { assert_equal 1, Side.new(:right) <=> Side.new(:left) }
+      specify('less_than') { assert_equal(-1, Side.new(:right) <=> Side.new(:whole)) }
+      specify('equal_to') { assert_equal(0, Side.new(:right) <=> Side.new(:right)) }
+      specify('greater_than') { assert_equal(1, Side.new(:right) <=> Side.new(:left)) }
     end
     
     describe 'returns nil if uncomarable with other' do
-      specify('with_object') { assert_nil Side.new(:right) <=> Object.new }
-      specify('with_nil') { assert_nil Side.new(:right) <=> nil }
-      specify('with_invalid_other_instance') { assert_nil Side.new(:right) <=> LoadAnyValue.new(:right) }
+      specify('with_object') { assert_nil(Side.new(:right) <=> Object.new) }
+      specify('with_nil') { assert_nil(Side.new(:right) <=> nil) }
+      specify('with_invalid_other_instance') { assert_nil(Side.new(:right) <=> LoadAnyValue.new(:right)) }
     end
   end
   
