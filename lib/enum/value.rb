@@ -1,3 +1,5 @@
+require 'enum'
+
 module Enum
   class Value
     
